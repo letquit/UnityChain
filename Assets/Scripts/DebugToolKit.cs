@@ -4,12 +4,18 @@ using UnityEngine;
 
 namespace COR
 {
+    /// <summary>
+    /// 调试工具包，使用责任链模式处理调试消息
+    /// </summary>
     public class DebugToolKit : MonoBehaviour
     {
         [SerializeField] private string logFilePath = "debug_log.txt";
 
         private IDebugProcessor chain;
 
+        /// <summary>
+        /// 初始化调试处理器责任链
+        /// </summary>
         private void Awake()
         {
             chain = new NullCheckProcessor();
@@ -18,6 +24,10 @@ namespace COR
                 .SetNext(new StateSaveProcessor());
         }
         
+        /// <summary>
+        /// 处理调试消息
+        /// </summary>
+        /// <param name="message">要处理的调试消息</param>
         public void Log(DebugMessageBase message) => chain.Process(message);
 
         /*
